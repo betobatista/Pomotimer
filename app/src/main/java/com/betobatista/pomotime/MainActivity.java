@@ -1,35 +1,35 @@
 package com.betobatista.pomotime;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.app.Activity;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity{
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+public class MainActivity extends Activity {
 
     private CountDownTimer timer;
     private TextView txtTimer;
-    private AppCompatButton btnStart;
+    private TextView btnStart;
+    private ProgressBar progressBar;
     private NotificationCompat.Builder notification;
     private MediaPlayer mediaPlayer;
+    private LinearLayout layout;
     private boolean getWork = true;
     private boolean buttonStatus = true;
     private long newTimer;
     private String newTitle;
     private int count = 0;
+    private int i;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         txtTimer = findViewById(R.id.txtTimer);
+        layout = findViewById(R.id.layoutBack);
+        progressBar = findViewById(R.id.progressBar);
         mediaPlayer = MediaPlayer.create(this, R.raw.sound_buzzer);
         createNotification();
         setNewTimer();
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 buttonStatus = !buttonStatus;
                 setButton();
+                i = 0;
+                progressBar.setProgress(i);
                 if(!buttonStatus) {
                     startTimer(newTimer);
                 } else {
@@ -56,25 +60,24 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
     private void setNewTimer() {
+        progressBar.setVisibility(View.INVISIBLE);
         if(count < 4) {
             if (getWork) {
                 count++;
                 newTimer = 15000;
                 newTitle = "Working..";
+                layout.setBackgroundColor(getResources().getColor(R.color.colorWork));
             } else {
                 newTimer = 3000;
                 newTitle = "Resting..";
+                layout.setBackgroundColor(getResources().getColor(R.color.colorRest));
             }
         } else {
             count = 0;
             newTimer = 900000;
             newTitle = "Long Rest";
+            layout.setBackgroundColor(getResources().getColor(R.color.colorRest));
         }
         setTimer(newTimer);
     }
@@ -84,6 +87,9 @@ public class MainActivity extends AppCompatActivity{
         int minutes = seconds/60;
         seconds = seconds % 60;
         String time = String.format("%d:%02d", minutes, seconds);
+
+        i++;
+        progressBar.setProgress((int) (i * 100 / (newTimer / 1000)));
 
         if(notification != null) {
             callNotification(newTitle, time);
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void startTimer(long newTime) {
+        progressBar.setVisibility(View.VISIBLE);
         timer = new CountDownTimer(newTime, 1000) {
 
             @Override
@@ -109,11 +116,13 @@ public class MainActivity extends AppCompatActivity{
 
             @Override
             public void onFinish() {
+                i++;
+                progressBar.setProgress(100);
                 getWork = !getWork;
                 buttonStatus = !buttonStatus;
                 setNewTimer();
-                callSound();
                 setButton();
+                callSound();
             }
         }.start();
     }
@@ -126,6 +135,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void cancelTimer() {
         if(timer!= null){
+            progressBar.setVisibility(View.INVISIBLE);
             timer.cancel();
             setNewTimer();
         }
