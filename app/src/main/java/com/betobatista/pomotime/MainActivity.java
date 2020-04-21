@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,11 +15,18 @@ import android.widget.TextView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import java.util.Random;
+
 public class MainActivity extends Activity {
 
+    private String[] motivationWork = {"Let's get to work!", "You can do it!", "Ok let's go!", "Get focused!"};
+    private String[] motivationRest = {"Ok let's get some rest!", "Relax dude!", "Great job, now relax!", "Good, Let's drink some water!"};
+
     private CountDownTimer timer;
+    private TextView txtTitle;
     private TextView txtTimer;
     private TextView btnStart;
+    private TextView txtMotivation;
     private ProgressBar progressBar;
     private NotificationCompat.Builder notification;
     private MediaPlayer mediaPlayer;
@@ -36,7 +43,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        txtTitle = findViewById(R.id.txtTitle);
         txtTimer = findViewById(R.id.txtTimer);
+        txtMotivation = findViewById(R.id.txtMotivation);
+
         layout = findViewById(R.id.layoutBack);
         progressBar = findViewById(R.id.progressBar);
         mediaPlayer = MediaPlayer.create(this, R.raw.sound_buzzer);
@@ -52,7 +62,7 @@ public class MainActivity extends Activity {
                 i = 0;
                 progressBar.setProgress(i);
                 if(!buttonStatus) {
-                    startTimer(newTimer);
+                    startTimer();
                 } else {
                     cancelTimer();
                 }
@@ -61,24 +71,32 @@ public class MainActivity extends Activity {
     }
 
     private void setNewTimer() {
+        String motivationText = null;
         progressBar.setVisibility(View.INVISIBLE);
+        Random random = new Random();
+        int i = random.nextInt(4);
         if(count < 4) {
             if (getWork) {
                 count++;
-                newTimer = 15000;
-                newTitle = "Working..";
+                newTimer = 1500000;
+                newTitle = "Working";
+                motivationText = motivationWork[i];
                 layout.setBackgroundColor(getResources().getColor(R.color.colorWork));
             } else {
-                newTimer = 3000;
-                newTitle = "Resting..";
+                newTimer = 300000;
+                newTitle = "Resting";
+                motivationText = motivationRest[i];
                 layout.setBackgroundColor(getResources().getColor(R.color.colorRest));
             }
         } else {
             count = 0;
             newTimer = 900000;
             newTitle = "Long Rest";
+            motivationText = motivationRest[i];
             layout.setBackgroundColor(getResources().getColor(R.color.colorRest));
         }
+        txtTitle.setText(newTitle);
+        txtMotivation.setText(motivationText);
         setTimer(newTimer);
     }
 
@@ -105,9 +123,10 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void startTimer(long newTime) {
+    private void startTimer() {
+
         progressBar.setVisibility(View.VISIBLE);
-        timer = new CountDownTimer(newTime, 1000) {
+        timer = new CountDownTimer(newTimer, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -128,9 +147,20 @@ public class MainActivity extends Activity {
     }
 
     private void callSound() {
-        mediaPlayer.start();
-        SystemClock.sleep(5000);
-        mediaPlayer.pause();
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mediaPlayer.start();
+                    Thread.sleep(3000);
+                    mediaPlayer.pause();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private void cancelTimer() {

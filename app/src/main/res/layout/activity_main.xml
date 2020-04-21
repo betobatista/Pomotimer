@@ -9,6 +9,17 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Titles"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+        android:textColor="#FFFFFF" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="00:00"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <TextView
                 android:id="@+id/btnStart"
@@ -44,11 +55,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Start"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
         </LinearLayout>
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/txtMotivation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Text Motivation"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
 </LinearLayout>
