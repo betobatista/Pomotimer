@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.betobatista.pomotime">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- android:value="ca-app-pub-3807774153243992~7325835107" -->
+    <!-- android:value="ca-app-pub-3940256099942544~3347511713" Meu-->
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -10,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3807774153243992~7325835107" />
         <activity android:name=".MainActivity"
             android:launchMode="singleInstance">
             <intent-filter>

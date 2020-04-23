@@ -2,11 +2,12 @@ package com.betobatista.pomotime;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,11 +16,19 @@ import android.widget.TextView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
+import java.util.Arrays;
 import java.util.Random;
 
 public class MainActivity extends Activity {
 
-    private String[] motivationWork = {"Let's get to work!", "You can do it!", "Ok let's go!", "Get focused!"};
+    private String[] motivationWork = {"Let's get to work!", "You can do it!", "Ok let's go!", "Keep focused!"};
     private String[] motivationRest = {"Ok let's get some rest!", "Relax dude!", "Great job, now relax!", "Good, Let's drink some water!"};
 
     private CountDownTimer timer;
@@ -29,6 +38,7 @@ public class MainActivity extends Activity {
     private TextView txtMotivation;
     private ProgressBar progressBar;
     private NotificationCompat.Builder notification;
+    private Vibrator vibrator;
     private MediaPlayer mediaPlayer;
     private LinearLayout layout;
     private boolean getWork = true;
@@ -38,10 +48,29 @@ public class MainActivity extends Activity {
     private int count = 0;
     private int i;
 
+    private AdView adView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        //AdView adView = new AdView(this);
+        //adView.setAdSize(AdSize.BANNER);
+        //adView.setAdUnitId("ca-app-pub-3807774153243992/9353232646");*/
+
+        MobileAds.setRequestConfiguration(
+                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
+                        .build());
+        adView = findViewById(R.id.ad_view);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         txtTitle = findViewById(R.id.txtTitle);
         txtTimer = findViewById(R.id.txtTimer);
@@ -49,7 +78,9 @@ public class MainActivity extends Activity {
 
         layout = findViewById(R.id.layoutBack);
         progressBar = findViewById(R.id.progressBar);
-        mediaPlayer = MediaPlayer.create(this, R.raw.sound_buzzer);
+        mediaPlayer = MediaPlayer.create(this, R.raw.sound_alarm_pomodoro);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
         createNotification();
         setNewTimer();
 
@@ -78,12 +109,12 @@ public class MainActivity extends Activity {
         if(count < 4) {
             if (getWork) {
                 count++;
-                newTimer = 1500000;
+                newTimer = 15000;
                 newTitle = "Working";
                 motivationText = motivationWork[i];
                 layout.setBackgroundColor(getResources().getColor(R.color.colorWork));
             } else {
-                newTimer = 300000;
+                newTimer = 3000;
                 newTitle = "Resting";
                 motivationText = motivationRest[i];
                 layout.setBackgroundColor(getResources().getColor(R.color.colorRest));
@@ -117,14 +148,18 @@ public class MainActivity extends Activity {
 
     private void setButton(){
         if(buttonStatus){
-            btnStart.setText("Start");
+            btnStart.setText(getString(R.string.start));
         } else {
-            btnStart.setText("Cancel");
+            btnStart.setText(getString(R.string.cancel));
         }
     }
 
     private void startTimer() {
-
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            mediaPlayer.seekTo(0);
+            vibrator.cancel();
+        }
         progressBar.setVisibility(View.VISIBLE);
         timer = new CountDownTimer(newTimer, 1000) {
 
@@ -147,20 +182,8 @@ public class MainActivity extends Activity {
     }
 
     private void callSound() {
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mediaPlayer.start();
-                    Thread.sleep(3000);
-                    mediaPlayer.pause();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
+        mediaPlayer.start();
+        vibrator.vibrate(4000);
     }
 
     private void cancelTimer() {
@@ -195,5 +218,33 @@ public class MainActivity extends Activity {
         super.onDestroy();
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.cancel(1);
+
+        //if (mediaPlayer != null) mediaPlayer.release();
+        if (adView != null) adView.destroy();
+
+        super.onDestroy();
     }
+
+    /**
+     * Called when leaving the activity
+     */
+    @Override
+    public void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
+        super.onPause();
+    }
+
+    /**
+     * Called when returning to the activity
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
 }

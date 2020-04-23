@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Pomotimer</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="titles">Titles</string>
+    <string name="timer_zero">00:00</string>
+    <string name="start">Start</string>
+    <string name="text_motivation">Text Motivation</string>
+    <string name="cancel">Cancel</string>
 </resources>

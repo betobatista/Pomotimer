@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layoutBack"
-    android:background="@color/colorWork"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/layoutBack"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWork"
+        android:gravity="center"
+        android:orientation="vertical">
 
     <TextView
         android:id="@+id/txtTitle"
@@ -16,7 +22,7 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Titles"
+        android:text="@string/titles"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textColor="#FFFFFF" />
 
@@ -46,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="00:00"
+                android:text="@string/timer_zero"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
             <TextView
@@ -54,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Start"
+                android:text="@string/start"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
         </LinearLayout>
@@ -68,7 +74,21 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Text Motivation"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
+        android:text="@string/text_motivation"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-</LinearLayout>
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3807774153243992/9353232646" />
+
+    </LinearLayout>
+
+    <!-- ads:adUnitId="ca-app-pub-3807774153243992/9353232646" -->
+
+    <!-- ads:adUnitId="@string/banner_ad_unit_id" -->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
