@@ -19,11 +19,9 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class MainActivity extends Activity {
@@ -65,9 +63,9 @@ public class MainActivity extends Activity {
         //adView.setAdSize(AdSize.BANNER);
         //adView.setAdUnitId("ca-app-pub-3807774153243992/9353232646");*/
 
-        MobileAds.setRequestConfiguration(
+        /*MobileAds.setRequestConfiguration(
                 new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
-                        .build());
+                        .build());*/
         adView = findViewById(R.id.ad_view);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);

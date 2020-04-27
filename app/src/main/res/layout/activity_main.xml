@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="6"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/layoutBack"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorWork"
+        android:layout_weight="6"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -77,18 +79,22 @@
         android:text="@string/text_motivation"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/ad_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-3807774153243992/9353232646" />
 
     </LinearLayout>
+
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3807774153243992/9353232646" />
+
 
     <!-- ads:adUnitId="ca-app-pub-3807774153243992/9353232646" -->
 
     <!-- ads:adUnitId="@string/banner_ad_unit_id" -->
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
