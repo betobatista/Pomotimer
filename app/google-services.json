@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "201070047768",
+    "firebase_url": "https://pomotimer-16154.firebaseio.com",
+    "project_id": "pomotimer-16154",
+    "storage_bucket": "pomotimer-16154.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201070047768:android:fdca7ed965dc2a3854096d",
+        "android_client_info": {
+          "package_name": "com.betobatista.pomotime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201070047768-dcdqb8ukr2n74nnf5j5jmht1hj927gip.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.betobatista.pomotime",
+            "certificate_hash": "810cab073ec0803fa88ede784bf3d532cce4d314"
+          }
+        },
+        {
+          "client_id": "201070047768-qcc5idqcc9pb706apgb377ehviciocep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOy9mKTVxbeAE9g44wsMaIgSWNZ_ahh5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201070047768-qcc5idqcc9pb706apgb377ehviciocep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

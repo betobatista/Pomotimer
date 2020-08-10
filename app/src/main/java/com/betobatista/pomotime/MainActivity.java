@@ -16,7 +16,7 @@ import android.widget.TextView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
@@ -59,16 +59,16 @@ public class MainActivity extends Activity {
             }
         });
 
-        //AdView adView = new AdView(this);
-        //adView.setAdSize(AdSize.BANNER);
-        //adView.setAdUnitId("ca-app-pub-3807774153243992/9353232646");*/
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544~3347511713");
 
-        /*MobileAds.setRequestConfiguration(
-                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
-                        .build());*/
-        adView = findViewById(R.id.ad_view);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+//        MobileAds.setRequestConfiguration(
+//                new RequestConfiguration.Builder().setTestDeviceIds(Arrays.asList("ABCDEF012345"))
+//                        .build());
+        //adView = findViewById(R.id.ad_view);
+        //AdRequest adRequest = new AdRequest.Builder().build();
+        //adView.loadAd(adRequest);
 
         txtTitle = findViewById(R.id.txtTitle);
         txtTimer = findViewById(R.id.txtTimer);
@@ -107,12 +107,12 @@ public class MainActivity extends Activity {
         if(count < 4) {
             if (getWork) {
                 count++;
-                newTimer = 15000;
+                newTimer = 1500000;
                 newTitle = "Working";
                 motivationText = motivationWork[i];
                 layout.setBackgroundColor(getResources().getColor(R.color.colorWork));
             } else {
-                newTimer = 3000;
+                newTimer = 300000;
                 newTitle = "Resting";
                 motivationText = motivationRest[i];
                 layout.setBackgroundColor(getResources().getColor(R.color.colorRest));
